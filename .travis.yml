@@ -1,20 +1,25 @@
 language: objective-c
 
 before_install:
+  # grab nose for mapnik python unit tests
   - wget https://bootstrap.pypa.io/get-pip.py
   - python get-pip.py
   - sudo pip install nose
-  - brew update
-  - brew rm boost gdal postgis proj jpeg libtiff
-  - brew install webp icu4c boost postgis boost-python proj jpeg libtiff harfbuzz
 
 install:
-  - true
+  - brew update
+  # travis homebrew cache is stale, so clean out a few packages
+  - brew rm boost gdal postgis proj jpeg libtiff
 
 before_script:
-  - true
+  # optional: only needed for python bindings
+  #- brew install boost-python
+  # optional: only needed for 
+  # note: not re-installing gdal or postgis to save time
+  - brew install webp icu4c boost proj jpeg libtiff harfbuzz
 
 script:
- - ./configure CXX="${CXX}" CC="${CC}"
+ # for faster build, disable python bindings and only build minimal datasource plugins and the nik2img tool for testing
+ - ./configure BINDINGS='' INPUT_PLUGINS='csv,shape' NIK2IMG=True
  - make
- - make test
+ - source localize.sh && nik2img tests/visual_tests/styles/dots.xml image.png
