@@ -5,7 +5,7 @@ before_install:
   - python get-pip.py
   - sudo pip install nose
   - brew update
-  - brew rm boost
+  - brew rm boost gdal postgis proj jpeg libtiff
   - brew install webp icu4c boost postgis boost-python proj jpeg libtiff harfbuzz
 
 install:
