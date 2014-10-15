@@ -23,3 +23,4 @@ script:
  - ./configure BINDINGS='' INPUT_PLUGINS='csv,shape' NIK2IMG=True
  - make
  - source localize.sh && nik2img tests/visual_tests/styles/dots.xml image.png
+ 
